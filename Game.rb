@@ -4,10 +4,14 @@ require_relative "./ComputerPlayer.rb"
 require "byebug"
 
 class Game
-    def initialize
+    def initialize(is_computer)
         @board = Board.new
         @previous_guess = nil
-        @human_player = HumanPlayer.new
+        if is_computer
+            @player = ComputerPlayer.new 
+        else
+            @player = HumanPlayer.new
+        end
     end
 
     def play
@@ -16,7 +20,7 @@ class Game
         while !@board.won?
             system("clear")
             @board.render
-            pos = @human_player.prompt
+            pos = @player.prompt
             self.make_guess(pos)
         end
     end
