@@ -6,6 +6,14 @@ class Board
         @grid = Array.new(4) { Array.new(4) }
     end
 
+    def [](pos)
+        row, col = pos
+        @grid[row][col]
+    end
+    def []=(pos,val)
+        row, col = pos
+        @grid[row][col] = val
+    end
     def populate
         potential_card_values = ('a'..'h').to_a.map(&:upcase)
         potential_card_values.each do |value|
@@ -21,5 +29,27 @@ class Board
             end
         end
     end
+    def render
+        render = [[" ","0","1","2","3"],["0"],["1"],["2"],["3"]]
+        @grid.each_with_index do |row, row_idx|
+            row.each do |ele|
+                render[row_idx + 1] << ele.to_s
+            end
+
+        end 
+        render.each {|row| puts row.join(" ")}
+    end
+    def won?
+        @grid.flatten.all? {|card| card.face_up}
+    end
+    def reveal(guess_pos)
+        @grid[guess_pos].reveal
+        @grid[guess_pos].face_value  
+    end
 
 end
+
+b = Board.new
+b.populate
+b.render
+puts b.won?
