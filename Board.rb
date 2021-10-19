@@ -1,5 +1,5 @@
 require_relative "./Card.rb"
-
+require "byebug"
 class Board
 
     def initialize
@@ -43,13 +43,13 @@ class Board
         @grid.flatten.all? {|card| card.face_up}
     end
     def reveal(guess_pos)
-        @grid[guess_pos].reveal
-        @grid[guess_pos].face_value  
+        self[guess_pos].reveal
+        self[guess_pos].face_value  
     end
 
 end
 
-b = Board.new
-b.populate
-b.render
-puts b.won?
+# b = Board.new
+# b.populate
+# b.render
+# puts b.won?
