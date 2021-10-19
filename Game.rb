@@ -1,24 +1,24 @@
 require_relative "./Board.rb"
+require_relative "./HumanPlayer.rb"
+require_relative "./ComputerPlayer.rb"
 require "byebug"
+
 class Game
     def initialize
         @board = Board.new
         @previous_guess = nil
+        @human_player = HumanPlayer.new
     end
 
     def play
         @board.populate
 
         while !@board.won?
+            system("clear")
             @board.render
-            pos = self.prompt
+            pos = @human_player.prompt
             self.make_guess(pos)
         end
-    end
-
-    def prompt
-        puts "Please enter the position of the card you'd like to flip (e.g. '2,3')"
-        pos = gets.chomp.split(',').map(&:to_i)
     end
 
     def make_guess(pos)
@@ -30,8 +30,10 @@ class Game
             if  @board[pos] == @previous_guess.face_value   
                 puts "its a match!"
             else
+                system("clear")
                 @board.render
                 puts "Try again! :-b"
+                sleep(2)
                 @board[pos].hide
                 @previous_guess.hide
             end
@@ -40,6 +42,6 @@ class Game
     end
 end
 
-g = Game.new
-g.play
+# g = Game.new
+# g.play
 
